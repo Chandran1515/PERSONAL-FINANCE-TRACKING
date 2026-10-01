@@ -15,51 +15,51 @@ const CURRENCIES = {
   AUD: { symbol: 'A$', code: 'AUD', name: 'Australian Dollar (A$)' }
 };
 
-// Default Realistic Sample Data for Initial Load
+// Default Realistic Sample Data for Initial Load (Formatted in INR ₹)
 const DEFAULT_DATA = {
-  currency: 'USD',
+  currency: 'INR',
   theme: 'dark',
   transactions: [
-    { id: 'tx-1', date: '2026-09-28', description: 'Tech Corp Salary', amount: 5200.00, type: 'income', category: 'Salary', method: 'Bank Transfer', note: 'Monthly payroll deposit' },
-    { id: 'tx-2', date: '2026-09-27', description: 'Luxury Apartment Rent', amount: 1650.00, type: 'expense', category: 'Housing', method: 'Bank Transfer', note: 'September rent' },
-    { id: 'tx-3', date: '2026-09-25', description: 'Whole Foods Grocery', amount: 185.40, type: 'expense', category: 'Food & Groceries', method: 'Credit Card', note: 'Weekly grocery run' },
-    { id: 'tx-4', date: '2026-09-24', description: 'Freelance UI Design', amount: 950.00, type: 'income', category: 'Freelance', method: 'Bank Transfer', note: 'Mobile App Wireframes' },
-    { id: 'tx-5', date: '2026-09-22', description: 'Vanguard S&P 500 Index (VOO)', amount: 600.00, type: 'investment', category: 'Stocks & ETFs', method: 'Bank Transfer', note: 'Monthly index DCA' },
-    { id: 'tx-6', date: '2026-09-20', description: 'Electric & Water Utility', amount: 135.20, type: 'expense', category: 'Utilities', method: 'Debit Card', note: 'Monthly bill' },
-    { id: 'tx-7', date: '2026-09-18', description: 'Chevron Gas Station', amount: 55.00, type: 'expense', category: 'Transportation', method: 'Credit Card', note: 'Full tank fill' },
-    { id: 'tx-8', date: '2026-09-15', description: 'Dinner at Bistro Moderne', amount: 92.50, type: 'expense', category: 'Entertainment', method: 'Credit Card', note: 'Weekend dinner out' },
-    { id: 'tx-9', date: '2026-09-12', description: 'Apple One Subscription', amount: 37.95, type: 'expense', category: 'Subscriptions', method: 'Credit Card', note: 'Family plan' },
-    { id: 'tx-10', date: '2026-09-10', description: 'Equinox Gym Membership', amount: 240.00, type: 'expense', category: 'Healthcare', method: 'Credit Card', note: 'Monthly membership' },
-    { id: 'tx-11', date: '2026-09-05', description: 'Bitcoin (BTC) Purchase', amount: 300.00, type: 'investment', category: 'Crypto', method: 'Bank Transfer', note: 'DCA Crypto allocation' },
-    { id: 'tx-12', date: '2026-09-01', description: 'Dividend Payout (AAPL)', amount: 145.80, type: 'income', category: 'Investments', method: 'Bank Transfer', note: 'Quarterly dividend' }
+    { id: 'tx-1', date: '2026-09-28', description: 'Tech Corp Salary', amount: 150000.00, type: 'income', category: 'Salary', method: 'Bank Transfer', note: 'Monthly HDFC salary credit' },
+    { id: 'tx-2', date: '2026-09-27', description: 'Apartment Rent', amount: 35000.00, type: 'expense', category: 'Housing', method: 'Bank Transfer', note: 'September rent payment' },
+    { id: 'tx-3', date: '2026-09-25', description: 'DMart & Groceries', amount: 14500.00, type: 'expense', category: 'Food & Groceries', method: 'UPI', note: 'Monthly family grocery run' },
+    { id: 'tx-4', date: '2026-09-24', description: 'Freelance Tech Consulting', amount: 45000.00, type: 'income', category: 'Freelance', method: 'Bank Transfer', note: 'Web App Consulting' },
+    { id: 'tx-5', date: '2026-09-22', description: 'Nifty 50 Index Fund SIP', amount: 25000.00, type: 'investment', category: 'Stocks & ETFs', method: 'Auto-Debit', note: 'Monthly Index SIP' },
+    { id: 'tx-6', date: '2026-09-20', description: 'Electricity & Utility Bill', amount: 3850.00, type: 'expense', category: 'Utilities', method: 'UPI', note: 'Monthly electricity bill' },
+    { id: 'tx-7', date: '2026-09-18', description: 'Indian Oil Fuel Refill', amount: 4500.00, type: 'expense', category: 'Transportation', method: 'Credit Card', note: 'Car petrol tank full' },
+    { id: 'tx-8', date: '2026-09-15', description: 'Weekend Dinner Outing', amount: 4200.00, type: 'expense', category: 'Entertainment', method: 'Credit Card', note: 'Family weekend dinner' },
+    { id: 'tx-9', date: '2026-09-12', description: 'Netflix & Broadband', amount: 1499.00, type: 'expense', category: 'Subscriptions', method: 'UPI', note: 'Fiber net + Netflix' },
+    { id: 'tx-10', date: '2026-09-10', description: 'Gym Membership', amount: 3500.00, type: 'expense', category: 'Healthcare', method: 'UPI', note: 'Monthly gym fee' },
+    { id: 'tx-11', date: '2026-09-05', description: 'Digital Gold SIP', amount: 10000.00, type: 'investment', category: 'Gold', method: 'UPI', note: 'Digital Gold DCA' },
+    { id: 'tx-12', date: '2026-09-01', description: 'TCS Dividend Payout', amount: 8500.00, type: 'income', category: 'Investments', method: 'Bank Transfer', note: 'Quarterly dividend' }
   ],
   budgets: [
-    { category: 'Housing', cap: 1700, period: 'Monthly' },
-    { category: 'Food & Groceries', cap: 600, period: 'Monthly' },
-    { category: 'Transportation', cap: 300, period: 'Monthly' },
-    { category: 'Entertainment', cap: 350, period: 'Monthly' },
-    { category: 'Utilities', cap: 250, period: 'Monthly' },
-    { category: 'Subscriptions', cap: 100, period: 'Monthly' },
-    { category: 'Shopping', cap: 400, period: 'Monthly' }
+    { category: 'Housing', cap: 40000, period: 'Monthly' },
+    { category: 'Food & Groceries', cap: 20000, period: 'Monthly' },
+    { category: 'Transportation', cap: 10000, period: 'Monthly' },
+    { category: 'Entertainment', cap: 12000, period: 'Monthly' },
+    { category: 'Utilities', cap: 6000, period: 'Monthly' },
+    { category: 'Subscriptions', cap: 3000, period: 'Monthly' },
+    { category: 'Shopping', cap: 15000, period: 'Monthly' }
   ],
   goals: [
-    { id: 'goal-1', title: '6-Month Emergency Reserve', targetAmount: 18000, currentAmount: 14200, icon: '🛡️', targetDate: '2027-04-01' },
-    { id: 'goal-2', title: 'Vacation to Tokyo & Kyoto', targetAmount: 4500, currentAmount: 3100, icon: '✈️', targetDate: '2027-08-15' },
-    { id: 'goal-3', title: 'Real Estate Downpayment', targetAmount: 50000, currentAmount: 22500, icon: '🏡', targetDate: '2028-12-31' }
+    { id: 'goal-1', title: '6-Month Emergency Reserve', targetAmount: 600000, currentAmount: 480000, icon: '🛡️', targetDate: '2027-04-01' },
+    { id: 'goal-2', title: 'Vacation to Ladakh & Kashmir', targetAmount: 150000, currentAmount: 95000, icon: '✈️', targetDate: '2027-08-15' },
+    { id: 'goal-3', title: 'Home Downpayment Fund', targetAmount: 1500000, currentAmount: 750000, icon: '🏡', targetDate: '2028-12-31' }
   ],
   investments: [
-    { id: 'inv-1', name: 'Vanguard Total Stock (VTI)', category: 'Stocks & ETFs', purchasePrice: 220.50, currentPrice: 275.40, quantity: 85, icon: '📈' },
-    { id: 'inv-2', name: 'Apple Inc. (AAPL)', category: 'Stocks & ETFs', purchasePrice: 170.00, currentPrice: 228.10, quantity: 40, icon: '🍏' },
-    { id: 'inv-3', name: 'Bitcoin (BTC)', category: 'Crypto', purchasePrice: 42000.00, currentPrice: 64200.00, quantity: 0.35, icon: '₿' },
-    { id: 'inv-4', name: 'Ethereum (ETH)', category: 'Crypto', purchasePrice: 2400.00, currentPrice: 3450.00, quantity: 2.5, icon: '⟠' },
-    { id: 'inv-5', name: 'High Yield Savings (Marcus 5.1%)', category: 'Cash & HYSA', purchasePrice: 1.00, currentPrice: 1.00, quantity: 15400, icon: '🏦' }
+    { id: 'inv-1', name: 'UTI Nifty 50 Index Fund', category: 'Stocks & ETFs', purchasePrice: 120.50, currentPrice: 165.40, quantity: 2500, icon: '📈' },
+    { id: 'inv-2', name: 'Reliance Industries (RELIANCE)', category: 'Stocks & ETFs', purchasePrice: 2450.00, currentPrice: 2980.00, quantity: 100, icon: '🏭' },
+    { id: 'inv-3', name: 'Tata Consultancy Services (TCS)', category: 'Stocks & ETFs', purchasePrice: 3500.00, currentPrice: 4250.00, quantity: 50, icon: '💻' },
+    { id: 'inv-4', name: 'SBI Fixed Deposit (7.1%)', category: 'Cash & HYSA', purchasePrice: 1.00, currentPrice: 1.00, quantity: 500000, icon: '🏦' },
+    { id: 'inv-5', name: 'Sovereign Gold Bond (SGB)', category: 'Gold', purchasePrice: 5200.00, currentPrice: 7150.00, quantity: 50, icon: '🪙' }
   ],
   subscriptions: [
-    { id: 'sub-1', name: 'Netflix Premium 4K', cost: 22.99, billingCycle: 'Monthly', nextRenewal: '2026-10-05', category: 'Entertainment', icon: '🎬' },
-    { id: 'sub-2', name: 'Spotify Duo', cost: 14.99, billingCycle: 'Monthly', nextRenewal: '2026-10-12', category: 'Entertainment', icon: '🎵' },
-    { id: 'sub-3', name: 'ChatGPT Plus', cost: 20.00, billingCycle: 'Monthly', nextRenewal: '2026-10-18', category: 'Productivity', icon: '🤖' },
-    { id: 'sub-4', name: 'Amazon Prime', cost: 139.00, billingCycle: 'Yearly', nextRenewal: '2026-11-20', category: 'Shopping', icon: '📦' },
-    { id: 'sub-5', name: 'GitHub Pro', cost: 4.00, billingCycle: 'Monthly', nextRenewal: '2026-10-28', category: 'Developer Tools', icon: '💻' }
+    { id: 'sub-1', name: 'Netflix Premium 4K', cost: 649.00, billingCycle: 'Monthly', nextRenewal: '2026-10-05', category: 'Entertainment', icon: '🎬' },
+    { id: 'sub-2', name: 'Spotify Premium Duo', cost: 149.00, billingCycle: 'Monthly', nextRenewal: '2026-10-12', category: 'Entertainment', icon: '🎵' },
+    { id: 'sub-3', name: 'YouTube Premium', cost: 149.00, billingCycle: 'Monthly', nextRenewal: '2026-10-18', category: 'Productivity', icon: '▶️' },
+    { id: 'sub-4', name: 'Amazon Prime India', cost: 1499.00, billingCycle: 'Yearly', nextRenewal: '2026-11-20', category: 'Shopping', icon: '📦' },
+    { id: 'sub-5', name: 'JioFiber 300Mbps', cost: 1179.00, billingCycle: 'Monthly', nextRenewal: '2026-10-28', category: 'Utilities', icon: '🌐' }
   ]
 };
 
@@ -95,12 +95,15 @@ class Store {
   }
 
   getCurrencySymbol() {
-    return CURRENCIES[this.data.currency]?.symbol || '$';
+    return CURRENCIES[this.data.currency]?.symbol || '₹';
   }
 
   formatMoney(amount) {
     const sym = this.getCurrencySymbol();
-    const formatted = Math.abs(amount).toLocaleString(undefined, {
+    const isINR = this.data.currency === 'INR';
+    const locale = isINR ? 'en-IN' : undefined;
+
+    const formatted = Math.abs(amount).toLocaleString(locale, {
       minimumFractionDigits: 2,
       maximumFractionDigits: 2
     });
