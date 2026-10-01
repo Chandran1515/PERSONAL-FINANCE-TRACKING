@@ -184,6 +184,10 @@
             <div class="page-subtitle">Track, filter, and analyze all income, expense, and investment records.</div>
           </div>
           <div style="display: flex; gap: 0.75rem;">
+            <label class="btn-secondary" style="cursor: pointer;">
+              <i class="fa-solid fa-file-import"></i> Import CSV
+              <input type="file" accept=".csv" style="display: none;" onchange="importTransactionsCSV(event)">
+            </label>
             <button class="btn-secondary" onclick="exportTransactionsCSV()"><i class="fa-solid fa-file-csv"></i> Export CSV</button>
             <button class="btn-primary" onclick="openModal('addTransactionModal')"><i class="fa-solid fa-plus"></i> Add Record</button>
           </div>

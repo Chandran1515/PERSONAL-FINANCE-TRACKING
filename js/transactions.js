@@ -203,3 +203,82 @@ function exportTransactionsCSV() {
 
   showToast('Exported CSV file successfully!');
 }
+
+// Import Transactions from CSV File
+function importTransactionsCSV(event) {
+  const file = event.target.files[0];
+  if (!file) return;
+
+  const reader = new FileReader();
+  reader.onload = (e) => {
+    try {
+      const text = e.target.result;
+      const lines = text.split(/\r\n|\n/).filter(line => line.trim().length > 0);
+      
+      if (lines.length < 2) {
+        alert('CSV file appears empty or missing rows.');
+        return;
+      }
+
+      // Parse header row to map columns
+      const headers = lines[0].split(',').map(h => h.trim().replace(/^"|"$/g, '').toLowerCase());
+      
+      let dateIdx = headers.findIndex(h => h.includes('date'));
+      let descIdx = headers.findIndex(h => h.includes('description') || h.includes('name') || h.includes('payee') || h.includes('merchant'));
+      let amountIdx = headers.findIndex(h => h.includes('amount') || h.includes('price') || h.includes('cost'));
+      let typeIdx = headers.findIndex(h => h.includes('type'));
+      let catIdx = headers.findIndex(h => h.includes('category'));
+      let methodIdx = headers.findIndex(h => h.includes('method') || h.includes('payment'));
+      let noteIdx = headers.findIndex(h => h.includes('note') || h.includes('memo'));
+
+      // Fallbacks if header names differ
+      if (dateIdx === -1) dateIdx = 0;
+      if (descIdx === -1) descIdx = 1;
+      if (amountIdx === -1) amountIdx = 2;
+
+      let importedCount = 0;
+      const today = new Date().toISOString().split('T')[0];
+
+      for (let i = 1; i < lines.length; i++) {
+        // Simple CSV regex row parser handling quotes
+        const cols = lines[i].match(/(".*?"|[^",\s]+)(?=\s*,|\s*$)/g) || lines[i].split(',');
+        const cleanCols = cols.map(c => c.trim().replace(/^"|"$/g, ''));
+
+        const description = cleanCols[descIdx] || 'Imported Expense';
+        const rawAmount = parseFloat((cleanCols[amountIdx] || '0').replace(/[^0-9.-]+/g, ''));
+        if (isNaN(rawAmount) || rawAmount === 0) continue;
+
+        const amount = Math.abs(rawAmount);
+        let type = typeIdx !== -1 ? (cleanCols[typeIdx] || '').toLowerCase() : (rawAmount < 0 ? 'expense' : 'income');
+        if (!['income', 'expense', 'investment'].includes(type)) {
+          type = rawAmount < 0 ? 'expense' : 'income';
+        }
+
+        const category = catIdx !== -1 && cleanCols[catIdx] ? cleanCols[catIdx] : 'General';
+        const date = dateIdx !== -1 && cleanCols[dateIdx] ? cleanCols[dateIdx] : today;
+        const method = methodIdx !== -1 && cleanCols[methodIdx] ? cleanCols[methodIdx] : 'Bank Transfer';
+        const note = noteIdx !== -1 ? cleanCols[noteIdx] : 'Imported via CSV';
+
+        store.addTransaction({
+          description,
+          amount,
+          type,
+          category,
+          date,
+          method,
+          note
+        });
+        importedCount++;
+      }
+
+      renderTransactionsTable();
+      refreshAppUI();
+      showToast(`Successfully imported ${importedCount} transactions from CSV!`);
+      event.target.value = '';
+    } catch (err) {
+      console.error('Error reading CSV:', err);
+      alert('Error parsing CSV file. Please ensure it is a valid CSV spreadsheet.');
+    }
+  };
+  reader.readAsText(file);
+}
