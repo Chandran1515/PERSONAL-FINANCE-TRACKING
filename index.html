@@ -1,0 +1,679 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WealthRise - Personal Finance & Wealth Tracker</title>
+  <meta name="description" content="State-of-the-art Personal Finance, Budgeting, Investment Portfolio, and Wealth Tracking Web Application.">
+  
+  <!-- Fonts & Icons -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <!-- Chart.js CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <!-- App Stylesheet -->
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+  <div class="app-container">
+    
+    <!-- Top Navigation Header -->
+    <header class="navbar">
+      <a href="#" class="nav-brand">
+        <img src="assets/logo.jpg" alt="WealthRise Logo" class="brand-logo">
+        <span class="brand-name gradient-text">WealthRise</span>
+      </a>
+
+      <ul class="nav-menu">
+        <li class="nav-item active"><button data-tab="tab-dashboard"><i class="fa-solid fa-chart-pie"></i> Dashboard</button></li>
+        <li class="nav-item"><button data-tab="tab-transactions"><i class="fa-solid fa-receipt"></i> Transactions</button></li>
+        <li class="nav-item"><button data-tab="tab-budgets"><i class="fa-solid fa-bullseye"></i> Budgets & Goals</button></li>
+        <li class="nav-item"><button data-tab="tab-investments"><i class="fa-solid fa-chart-line"></i> Investments</button></li>
+        <li class="nav-item"><button data-tab="tab-subscriptions"><i class="fa-solid fa-arrows-rotate"></i> Subscriptions</button></li>
+        <li class="nav-item"><button data-tab="tab-ai"><i class="fa-solid fa-wand-magic-sparkles"></i> AI Insights</button></li>
+        <li class="nav-item"><button data-tab="tab-settings"><i class="fa-solid fa-gear"></i> Settings</button></li>
+      </ul>
+
+      <div class="nav-actions">
+        <select id="currencySelector" class="select-styled" title="Select Currency">
+          <option value="USD">$ USD</option>
+          <option value="EUR">€ EUR</option>
+          <option value="GBP">£ GBP</option>
+          <option value="INR">₹ INR</option>
+          <option value="JPY">¥ JPY</option>
+          <option value="CAD">C$ CAD</option>
+          <option value="AUD">A$ AUD</option>
+        </select>
+
+        <button id="themeToggleBtn" class="btn-icon" title="Toggle Light/Dark Theme">
+          <i id="themeIcon" class="fa-solid fa-moon"></i>
+        </button>
+
+        <button class="btn-primary" onclick="openModal('addTransactionModal')">
+          <i class="fa-solid fa-plus"></i> New Transaction
+        </button>
+      </div>
+    </header>
+
+    <!-- Main Content Container -->
+    <main class="main-content">
+
+      <!-- TAB 1: DASHBOARD -->
+      <section id="tab-dashboard" class="tab-content active">
+        
+        <!-- KPI Overview Cards Grid -->
+        <div class="kpi-grid">
+          <div class="glass-card kpi-card">
+            <div class="kpi-head">
+              <span>Total Net Worth</span>
+              <div class="kpi-icon-box icon-emerald"><i class="fa-solid fa-wallet"></i></div>
+            </div>
+            <div id="kpiNetWorth" class="kpi-val gradient-text">$0.00</div>
+            <span class="kpi-badge badge-up"><i class="fa-solid fa-arrow-trend-up"></i> +4.2% vs last month</span>
+          </div>
+
+          <div class="glass-card kpi-card">
+            <div class="kpi-head">
+              <span>Monthly Income</span>
+              <div class="kpi-icon-box icon-cyan"><i class="fa-solid fa-arrow-down-left"></i></div>
+            </div>
+            <div id="kpiIncome" class="kpi-val">$0.00</div>
+            <span class="kpi-badge badge-up"><i class="fa-solid fa-check"></i> On target</span>
+          </div>
+
+          <div class="glass-card kpi-card">
+            <div class="kpi-head">
+              <span>Monthly Expenses</span>
+              <div class="kpi-icon-box icon-rose"><i class="fa-solid fa-arrow-up-right"></i></div>
+            </div>
+            <div id="kpiExpenses" class="kpi-val">$0.00</div>
+            <span class="kpi-badge badge-neutral"><i class="fa-solid fa-minus"></i> Within budget</span>
+          </div>
+
+          <div class="glass-card kpi-card">
+            <div class="kpi-head">
+              <span>Savings Rate</span>
+              <div class="kpi-icon-box icon-purple"><i class="fa-solid fa-piggy-bank"></i></div>
+            </div>
+            <div id="kpiSavingsRate" class="kpi-val">0%</div>
+            <span class="kpi-badge badge-up"><i class="fa-solid fa-shield-heart"></i> Excellent</span>
+          </div>
+        </div>
+
+        <!-- AI Advisor Banner -->
+        <div class="ai-advisor-banner">
+          <div class="ai-icon-pulse"><i class="fa-solid fa-brain"></i></div>
+          <div style="flex: 1;">
+            <div style="font-weight: 700; font-size: 1.1rem; margin-bottom: 0.2rem;">Financial Health Summary</div>
+            <div style="font-size: 0.9rem; color: var(--text-muted);">
+              Your net worth has grown by <strong>4.2%</strong> this month. You have saved <strong>38%</strong> of your income, comfortably exceeding the 20% savings rule.
+            </div>
+          </div>
+          <button class="btn-secondary" onclick="document.querySelector('[data-tab=\'tab-ai\']').click()">View AI Report</button>
+        </div>
+
+        <!-- Charts Grid 1 -->
+        <div class="charts-grid-2">
+          <div class="glass-card">
+            <div class="chart-card-header">
+              <span class="chart-title"><i class="fa-solid fa-chart-line" style="color: var(--primary-emerald);"></i> Net Worth Trajectory</span>
+              <span style="font-size: 0.8rem; color: var(--text-muted);">Past 6 Months</span>
+            </div>
+            <div class="chart-container">
+              <canvas id="netWorthChart"></canvas>
+            </div>
+          </div>
+
+          <div class="glass-card">
+            <div class="chart-card-header">
+              <span class="chart-title"><i class="fa-solid fa-chart-pie" style="color: var(--accent-rose);"></i> Expense Breakdown</span>
+              <span style="font-size: 0.8rem; color: var(--text-muted);">By Category</span>
+            </div>
+            <div class="chart-container">
+              <canvas id="categoryChart"></canvas>
+            </div>
+          </div>
+        </div>
+
+        <!-- Charts Grid 2 & Recent Transactions -->
+        <div class="charts-grid-equal">
+          <div class="glass-card">
+            <div class="chart-card-header">
+              <span class="chart-title"><i class="fa-solid fa-chart-column" style="color: var(--accent-cyan);"></i> Income vs Expense Cash Flow</span>
+            </div>
+            <div class="chart-container">
+              <canvas id="cashflowChart"></canvas>
+            </div>
+          </div>
+
+          <div class="glass-card">
+            <div class="chart-card-header">
+              <span class="chart-title"><i class="fa-solid fa-clock-rotate-left"></i> Quick Recent Activity</span>
+              <button class="btn-secondary" style="padding: 0.3rem 0.7rem; font-size: 0.8rem;" onclick="document.querySelector('[data-tab=\'tab-transactions\']').click()">View All</button>
+            </div>
+            <div class="table-container" style="max-height: 250px;">
+              <table class="custom-table">
+                <thead>
+                  <tr>
+                    <th>Date</th>
+                    <th>Description</th>
+                    <th>Category</th>
+                    <th>Amount</th>
+                  </tr>
+                </thead>
+                <tbody id="quickRecentTxBody">
+                  <!-- Populated dynamically -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+      </section>
+
+      <!-- TAB 2: TRANSACTIONS MANAGER -->
+      <section id="tab-transactions" class="tab-content">
+        <div class="page-header">
+          <div class="page-title-group">
+            <h1>Transactions Tracker</h1>
+            <div class="page-subtitle">Track, filter, and analyze all income, expense, and investment records.</div>
+          </div>
+          <div style="display: flex; gap: 0.75rem;">
+            <button class="btn-secondary" onclick="exportTransactionsCSV()"><i class="fa-solid fa-file-csv"></i> Export CSV</button>
+            <button class="btn-primary" onclick="openModal('addTransactionModal')"><i class="fa-solid fa-plus"></i> Add Record</button>
+          </div>
+        </div>
+
+        <!-- Filter Bar -->
+        <div class="filter-bar">
+          <div class="search-box">
+            <i class="fa-solid fa-magnifying-glass search-icon"></i>
+            <input type="text" id="searchTxInput" placeholder="Search by keyword, note, or category..." oninput="renderTransactionsTable()">
+          </div>
+
+          <select id="filterTxType" class="select-styled" onchange="renderTransactionsTable()">
+            <option value="all">All Types</option>
+            <option value="income">Income (+)</option>
+            <option value="expense">Expense (-)</option>
+            <option value="investment">Investment (↗)</option>
+          </select>
+
+          <select id="filterTxCategory" class="select-styled" onchange="renderTransactionsTable()">
+            <!-- Options populated dynamically -->
+          </select>
+        </div>
+
+        <!-- Transactions Table -->
+        <div class="table-container">
+          <table class="custom-table">
+            <thead>
+              <tr>
+                <th>Date</th>
+                <th>Description</th>
+                <th>Category</th>
+                <th>Method</th>
+                <th>Amount</th>
+                <th style="text-align: right;">Actions</th>
+              </tr>
+            </thead>
+            <tbody id="transactionsTableBody">
+              <!-- Rendered by js/transactions.js -->
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Pagination Bar -->
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 1.2rem;">
+          <div id="pageInfo" style="font-size: 0.88rem; color: var(--text-muted);">Page 1 of 1</div>
+          <div style="display: flex; gap: 0.5rem;">
+            <button id="prevPageBtn" class="btn-secondary" onclick="prevPage()"><i class="fa-solid fa-chevron-left"></i> Prev</button>
+            <button id="nextPageBtn" class="btn-secondary" onclick="nextPage()">Next <i class="fa-solid fa-chevron-right"></i></button>
+          </div>
+        </div>
+      </section>
+
+      <!-- TAB 3: BUDGETS & GOALS -->
+      <section id="tab-budgets" class="tab-content">
+        <div class="page-header">
+          <div class="page-title-group">
+            <h1>Budgets & Savings Goals</h1>
+            <div class="page-subtitle">Manage monthly spending limits and monitor long-term savings targets.</div>
+          </div>
+          <button class="btn-primary" onclick="openModal('addGoalModal')"><i class="fa-solid fa-bullseye"></i> + Create Savings Goal</button>
+        </div>
+
+        <!-- 50/30/20 Rule Breakdown Box -->
+        <div class="glass-card" style="margin-bottom: 1.8rem; background: linear-gradient(135deg, rgba(6, 182, 212, 0.08), rgba(16, 185, 129, 0.08)); border-color: var(--border-glow);">
+          <div style="font-size: 1.1rem; font-weight: 700; margin-bottom: 0.4rem;">💡 50 / 30 / 20 Automatic Budget Framework</div>
+          <div style="font-size: 0.88rem; color: var(--text-muted); margin-bottom: 1rem;">Based on your current monthly income, recommended allocation:</div>
+          <div class="kpi-grid" style="margin-bottom: 0;">
+            <div class="glass-card" style="padding: 1rem;">
+              <div style="font-size: 0.82rem; color: var(--text-muted);">50% Essential Needs</div>
+              <div id="ruleNeedsVal" style="font-size: 1.4rem; font-weight: 800; color: var(--accent-cyan);">$0.00</div>
+            </div>
+            <div class="glass-card" style="padding: 1rem;">
+              <div style="font-size: 0.82rem; color: var(--text-muted);">30% Wants & Lifestyle</div>
+              <div id="ruleWantsVal" style="font-size: 1.4rem; font-weight: 800; color: var(--accent-purple);">$0.00</div>
+            </div>
+            <div class="glass-card" style="padding: 1rem;">
+              <div style="font-size: 0.82rem; color: var(--text-muted);">20% Savings & Debt</div>
+              <div id="ruleSavingsVal" style="font-size: 1.4rem; font-weight: 800; color: var(--primary-emerald);">$0.00</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Monthly Category Budgets -->
+        <h2 style="font-size: 1.3rem; margin-bottom: 1rem;">Category Spending Limits</h2>
+        <div id="budgetGridContainer" class="budget-cards-grid" style="margin-bottom: 2.2rem;">
+          <!-- Rendered dynamically -->
+        </div>
+
+        <!-- Savings Goals -->
+        <h2 style="font-size: 1.3rem; margin-bottom: 1rem;">Active Savings Goals</h2>
+        <div id="goalsGridContainer" class="budget-cards-grid">
+          <!-- Rendered dynamically -->
+        </div>
+      </section>
+
+      <!-- TAB 4: INVESTMENTS & PORTFOLIO -->
+      <section id="tab-investments" class="tab-content">
+        <div class="page-header">
+          <div class="page-title-group">
+            <h1>Investment Portfolio & Asset Growth</h1>
+            <div class="page-subtitle">Track equities, crypto, cash reserves, and calculate future wealth growth.</div>
+          </div>
+          <button class="btn-primary" onclick="openModal('addInvestmentModal')"><i class="fa-solid fa-plus"></i> + Add Asset</button>
+        </div>
+
+        <!-- Portfolio Overview KPIs -->
+        <div class="kpi-grid" style="margin-bottom: 1.8rem;">
+          <div class="glass-card kpi-card">
+            <div class="kpi-head"><span>Total Portfolio Value</span><div class="kpi-icon-box icon-cyan"><i class="fa-solid fa-chart-pie"></i></div></div>
+            <div id="portfolioTotalVal" class="kpi-val">$0.00</div>
+          </div>
+          <div class="glass-card kpi-card">
+            <div class="kpi-head"><span>Total Profit / Loss</span><div class="kpi-icon-box icon-emerald"><i class="fa-solid fa-arrow-trend-up"></i></div></div>
+            <div id="portfolioTotalPnl" class="kpi-val type-income">+$0.00</div>
+          </div>
+        </div>
+
+        <!-- Asset Allocation & Table Grid -->
+        <div class="charts-grid-2" style="margin-bottom: 1.8rem;">
+          <div class="glass-card">
+            <div class="chart-card-header"><span class="chart-title">Portfolio Holdings</span></div>
+            <div class="table-container">
+              <table class="custom-table">
+                <thead>
+                  <tr>
+                    <th>Asset</th>
+                    <th>Category</th>
+                    <th>Qty</th>
+                    <th>Buy Price</th>
+                    <th>Current</th>
+                    <th>Total Value</th>
+                    <th>P&L</th>
+                    <th style="text-align: right;">Action</th>
+                  </tr>
+                </thead>
+                <tbody id="investmentsTableBody">
+                  <!-- Rendered dynamically -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <div class="glass-card">
+            <div class="chart-card-header"><span class="chart-title">Asset Class Distribution</span></div>
+            <div class="chart-container">
+              <canvas id="assetChart"></canvas>
+            </div>
+          </div>
+        </div>
+
+        <!-- Compound Growth Investment Calculator -->
+        <div class="glass-card">
+          <div style="font-size: 1.2rem; font-weight: 700; margin-bottom: 1rem;"><i class="fa-solid fa-calculator" style="color: var(--primary-emerald);"></i> Compound Wealth Simulator</div>
+          <div class="form-row" style="margin-bottom: 1rem;">
+            <div class="form-group">
+              <label class="form-label">Initial Investment Amount</label>
+              <input type="number" id="calcInitial" class="form-input" value="5000" oninput="calculateCompoundInterest()">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Monthly Contribution</label>
+              <input type="number" id="calcMonthly" class="form-input" value="500" oninput="calculateCompoundInterest()">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Expected Annual Return (%)</label>
+              <input type="number" id="calcRate" class="form-input" value="8" step="0.1" oninput="calculateCompoundInterest()">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Investment Period (Years)</label>
+              <input type="number" id="calcYears" class="form-input" value="10" oninput="calculateCompoundInterest()">
+            </div>
+          </div>
+
+          <div class="kpi-grid" style="margin-bottom: 0;">
+            <div class="glass-card" style="padding: 1rem;">
+              <div style="font-size: 0.82rem; color: var(--text-muted);">Estimated Future Value</div>
+              <div id="calcFutureVal" style="font-size: 1.5rem; font-weight: 800; color: var(--primary-emerald);">$0.00</div>
+            </div>
+            <div class="glass-card" style="padding: 1rem;">
+              <div style="font-size: 0.82rem; color: var(--text-muted);">Total Principal Invested</div>
+              <div id="calcTotalContrib" style="font-size: 1.5rem; font-weight: 800; color: var(--text-main);">$0.00</div>
+            </div>
+            <div class="glass-card" style="padding: 1rem;">
+              <div style="font-size: 0.82rem; color: var(--text-muted);">Interest & Capital Gain</div>
+              <div id="calcTotalInterest" style="font-size: 1.5rem; font-weight: 800; color: var(--accent-cyan);">$0.00</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- TAB 5: SUBSCRIPTIONS & BILLS -->
+      <section id="tab-subscriptions" class="tab-content">
+        <div class="page-header">
+          <div class="page-title-group">
+            <h1>Subscriptions & Recurring Bills</h1>
+            <div class="page-subtitle">Track recurring payments, prevent forgotten renewals, and optimize cashflow.</div>
+          </div>
+          <button class="btn-primary" onclick="openModal('addSubscriptionModal')"><i class="fa-solid fa-plus"></i> + Track Subscription</button>
+        </div>
+
+        <div class="kpi-grid" style="margin-bottom: 1.8rem;">
+          <div class="glass-card kpi-card">
+            <div class="kpi-head"><span>Monthly Subscription Cost</span><div class="kpi-icon-box icon-rose"><i class="fa-solid fa-arrows-rotate"></i></div></div>
+            <div id="subMonthlyTotal" class="kpi-val">$0.00</div>
+          </div>
+          <div class="glass-card kpi-card">
+            <div class="kpi-head"><span>Yearly Total Spend</span><div class="kpi-icon-box icon-amber"><i class="fa-solid fa-calendar-days"></i></div></div>
+            <div id="subYearlyTotal" class="kpi-val">$0.00</div>
+          </div>
+        </div>
+
+        <div id="subscriptionsGridContainer" class="budget-cards-grid">
+          <!-- Rendered dynamically -->
+        </div>
+      </section>
+
+      <!-- TAB 6: AI FINANCIAL ADVISOR -->
+      <section id="tab-ai" class="tab-content">
+        <div class="page-header">
+          <div class="page-title-group">
+            <h1>AI Financial Health Advisor</h1>
+            <div class="page-subtitle">Automated intelligence scoring and personalized financial optimization tips.</div>
+          </div>
+        </div>
+
+        <div class="glass-card" style="margin-bottom: 1.8rem; text-align: center; padding: 2rem;">
+          <div style="font-size: 0.9rem; font-weight: 700; color: var(--text-muted); margin-bottom: 0.5rem;">FINANCIAL HEALTH INDEX SCORE</div>
+          <div style="font-size: 3.5rem; font-weight: 800;" class="gradient-text"><span id="healthScoreVal">0</span> / 100</div>
+          <div class="progress-bar-bg" style="max-width: 400px; margin: 1rem auto; height: 12px;">
+            <div id="healthScoreGauge" class="progress-bar-fill bg-emerald" style="width: 0%;"></div>
+          </div>
+        </div>
+
+        <h2 style="font-size: 1.2rem; margin-bottom: 1rem;">Personalized Smart Recommendations</h2>
+        <div id="aiInsightsList" style="display: flex; flex-direction: column; gap: 0.9rem;">
+          <!-- Rendered dynamically -->
+        </div>
+      </section>
+
+      <!-- TAB 7: SETTINGS & BACKUP -->
+      <section id="tab-settings" class="tab-content">
+        <div class="page-header">
+          <div class="page-title-group">
+            <h1>Settings & Data Backup</h1>
+            <div class="page-subtitle">Manage preferences, export reports, and backup financial datasets.</div>
+          </div>
+        </div>
+
+        <div class="glass-card" style="max-width: 650px; display: flex; flex-direction: column; gap: 1.5rem;">
+          <div>
+            <h3 style="margin-bottom: 0.5rem;">Data Export & Import</h3>
+            <p style="font-size: 0.88rem; color: var(--text-muted); margin-bottom: 1rem;">Export full database backup in JSON format or import existing records.</p>
+            <div style="display: flex; gap: 0.75rem; flex-wrap: wrap;">
+              <button class="btn-primary" onclick="exportFullJSONData()"><i class="fa-solid fa-download"></i> Download Full JSON Backup</button>
+              <label class="btn-secondary" style="cursor: pointer;">
+                <i class="fa-solid fa-upload"></i> Restore JSON Backup
+                <input type="file" accept=".json" style="display: none;" onchange="importJSONDataHandler(event)">
+              </label>
+            </div>
+          </div>
+
+          <hr style="border: none; border-top: 1px solid var(--border-color);">
+
+          <div>
+            <h3 style="margin-bottom: 0.5rem; color: var(--accent-rose);">Reset Application State</h3>
+            <p style="font-size: 0.88rem; color: var(--text-muted); margin-bottom: 1rem;">Reset state back to realistic sample dataset for demonstration.</p>
+            <button class="btn-danger" onclick="resetDemoDataHandler()"><i class="fa-solid fa-rotate-left"></i> Reset Demo Data</button>
+          </div>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <!-- MODALS CONTAINER -->
+
+  <!-- Modal 1: Add Transaction -->
+  <div id="addTransactionModal" class="modal-overlay">
+    <div class="modal-container">
+      <div class="modal-header">
+        <h3 style="font-size: 1.1rem;">Add New Transaction</h3>
+        <button class="btn-icon" onclick="closeModal('addTransactionModal')"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+      <form id="addTransactionForm">
+        <div class="modal-body">
+          <div class="form-group">
+            <label class="form-label">Description / Merchant</label>
+            <input type="text" id="txDescription" class="form-input" placeholder="e.g. Grocery Shopping" required>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">Amount</label>
+              <input type="number" id="txAmount" class="form-input" step="0.01" placeholder="0.00" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Type</label>
+              <select id="txType" class="form-select">
+                <option value="expense">Expense (-)</option>
+                <option value="income">Income (+)</option>
+                <option value="investment">Investment (↗)</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">Category</label>
+              <input type="text" id="txCategory" class="form-input" placeholder="e.g. Food & Groceries" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Date</label>
+              <input type="date" id="txDate" class="form-input">
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Payment Method</label>
+            <select id="txMethod" class="form-select">
+              <option value="Credit Card">Credit Card</option>
+              <option value="Debit Card">Debit Card</option>
+              <option value="Bank Transfer">Bank Transfer</option>
+              <option value="Cash">Cash</option>
+              <option value="Crypto">Crypto</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Notes (Optional)</label>
+            <input type="text" id="txNote" class="form-input" placeholder="Additional details...">
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn-secondary" onclick="closeModal('addTransactionModal')">Cancel</button>
+          <button type="submit" class="btn-primary">Save Transaction</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modal 2: Add Savings Goal -->
+  <div id="addGoalModal" class="modal-overlay">
+    <div class="modal-container">
+      <div class="modal-header">
+        <h3 style="font-size: 1.1rem;">Create Savings Goal</h3>
+        <button class="btn-icon" onclick="closeModal('addGoalModal')"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+      <form id="addGoalForm">
+        <div class="modal-body">
+          <div class="form-group">
+            <label class="form-label">Goal Title</label>
+            <input type="text" id="goalTitle" class="form-input" placeholder="e.g. Vacation Fund" required>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">Target Amount</label>
+              <input type="number" id="goalTarget" class="form-input" step="1" placeholder="5000" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Current Saved</label>
+              <input type="number" id="goalCurrent" class="form-input" step="1" placeholder="0">
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">Icon Emoji</label>
+              <input type="text" id="goalIcon" class="form-input" value="🎯">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Target Date</label>
+              <input type="date" id="goalDate" class="form-input" required>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn-secondary" onclick="closeModal('addGoalModal')">Cancel</button>
+          <button type="submit" class="btn-primary">Save Goal</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modal 3: Add Investment Asset -->
+  <div id="addInvestmentModal" class="modal-overlay">
+    <div class="modal-container">
+      <div class="modal-header">
+        <h3 style="font-size: 1.1rem;">Add Investment Asset</h3>
+        <button class="btn-icon" onclick="closeModal('addInvestmentModal')"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+      <form id="addInvestmentForm">
+        <div class="modal-body">
+          <div class="form-group">
+            <label class="form-label">Asset Name</label>
+            <input type="text" id="invName" class="form-input" placeholder="e.g. Vanguard S&P 500 (VOO)" required>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">Category</label>
+              <select id="invCategory" class="form-select">
+                <option value="Stocks & ETFs">Stocks & ETFs</option>
+                <option value="Crypto">Crypto</option>
+                <option value="Cash & HYSA">Cash & HYSA</option>
+                <option value="Real Estate">Real Estate</option>
+                <option value="Bonds">Bonds</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Icon Emoji</label>
+              <input type="text" id="invIcon" class="form-input" value="📈">
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">Purchase Price</label>
+              <input type="number" id="invBuyPrice" class="form-input" step="0.01" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Current Market Price</label>
+              <input type="number" id="invCurrentPrice" class="form-input" step="0.01" required>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Quantity Owned</label>
+            <input type="number" id="invQty" class="form-input" step="0.0001" required>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn-secondary" onclick="closeModal('addInvestmentModal')">Cancel</button>
+          <button type="submit" class="btn-primary">Save Asset</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modal 4: Add Subscription -->
+  <div id="addSubscriptionModal" class="modal-overlay">
+    <div class="modal-container">
+      <div class="modal-header">
+        <h3 style="font-size: 1.1rem;">Track Subscription</h3>
+        <button class="btn-icon" onclick="closeModal('addSubscriptionModal')"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+      <form id="addSubscriptionForm">
+        <div class="modal-body">
+          <div class="form-group">
+            <label class="form-label">Subscription Name</label>
+            <input type="text" id="subName" class="form-input" placeholder="e.g. Netflix 4K" required>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">Cost</label>
+              <input type="number" id="subCost" class="form-input" step="0.01" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Billing Cycle</label>
+              <select id="subCycle" class="form-select">
+                <option value="Monthly">Monthly</option>
+                <option value="Yearly">Yearly</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">Category</label>
+              <input type="text" id="subCategory" class="form-input" value="Entertainment">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Next Renewal Date</label>
+              <input type="date" id="subRenewalDate" class="form-input" required>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Icon Emoji</label>
+            <input type="text" id="subIcon" class="form-input" value="💳">
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn-secondary" onclick="closeModal('addSubscriptionModal')">Cancel</button>
+          <button type="submit" class="btn-primary">Track Subscription</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Toast Notification Container -->
+  <div id="toastContainer" class="toast-container"></div>
+
+  <!-- Application Scripts -->
+  <script src="js/state.js"></script>
+  <script src="js/charts.js"></script>
+  <script src="js/transactions.js"></script>
+  <script src="js/budgets.js"></script>
+  <script src="js/investments.js"></script>
+  <script src="js/subscriptions.js"></script>
+  <script src="js/ai-insights.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
