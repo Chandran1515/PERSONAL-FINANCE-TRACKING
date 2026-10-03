@@ -2,7 +2,7 @@
    WealthRise - State Management & Storage Engine
    ========================================================================== */
 
-const STORAGE_KEY = 'wealthrise_financial_store_v3';
+const STORAGE_KEY = 'wealthrise_financial_store_v4';
 
 // Supported Currencies Configuration
 const CURRENCIES = {
@@ -390,25 +390,9 @@ const DEFAULT_DATA = {
     { category: 'Subscriptions', cap: 3000, period: 'Monthly' },
     { category: 'Shopping', cap: 15000, period: 'Monthly' }
   ],
-  goals: [
-    { id: 'goal-1', title: '6-Month Emergency Reserve', targetAmount: 600000, currentAmount: 480000, icon: '🛡️', targetDate: '2027-04-01' },
-    { id: 'goal-2', title: 'Vacation to Ladakh & Kashmir', targetAmount: 150000, currentAmount: 95000, icon: '✈️', targetDate: '2027-08-15' },
-    { id: 'goal-3', title: 'Home Downpayment Fund', targetAmount: 1500000, currentAmount: 750000, icon: '🏡', targetDate: '2028-12-31' }
-  ],
-  investments: [
-    { id: 'inv-1', name: 'UTI Nifty 50 Index Fund', category: 'Stocks & ETFs', purchasePrice: 120.50, currentPrice: 165.40, quantity: 2500, icon: '📈' },
-    { id: 'inv-2', name: 'Reliance Industries (RELIANCE)', category: 'Stocks & ETFs', purchasePrice: 2450.00, currentPrice: 2980.00, quantity: 100, icon: '🏭' },
-    { id: 'inv-3', name: 'Tata Consultancy Services (TCS)', category: 'Stocks & ETFs', purchasePrice: 3500.00, currentPrice: 4250.00, quantity: 50, icon: '💻' },
-    { id: 'inv-4', name: 'SBI Fixed Deposit (7.1%)', category: 'Cash & HYSA', purchasePrice: 1.00, currentPrice: 1.00, quantity: 500000, icon: '🏦' },
-    { id: 'inv-5', name: 'Sovereign Gold Bond (SGB)', category: 'Gold', purchasePrice: 5200.00, currentPrice: 7150.00, quantity: 50, icon: '🪙' }
-  ],
-  subscriptions: [
-    { id: 'sub-1', name: 'Netflix Premium 4K', cost: 649.00, billingCycle: 'Monthly', nextRenewal: '2026-10-05', category: 'Entertainment', icon: '🎬' },
-    { id: 'sub-2', name: 'Spotify Premium Duo', cost: 149.00, billingCycle: 'Monthly', nextRenewal: '2026-10-12', category: 'Entertainment', icon: '🎵' },
-    { id: 'sub-3', name: 'YouTube Premium', cost: 149.00, billingCycle: 'Monthly', nextRenewal: '2026-10-18', category: 'Productivity', icon: '▶️' },
-    { id: 'sub-4', name: 'Amazon Prime India', cost: 1499.00, billingCycle: 'Yearly', nextRenewal: '2026-11-20', category: 'Shopping', icon: '📦' },
-    { id: 'sub-5', name: 'JioFiber 300Mbps', cost: 1179.00, billingCycle: 'Monthly', nextRenewal: '2026-10-28', category: 'Utilities', icon: '🌐' }
-  ]
+  goals: [],
+  investments: [],
+  subscriptions: []
 };
 
 // Global State Class
@@ -419,14 +403,22 @@ class Store {
 
   loadState() {
     try {
+      // Clear older version keys from local storage
+      ['wealthrise_financial_store_v1', 'wealthrise_financial_store_v2', 'wealthrise_financial_store_v3'].forEach(k => localStorage.removeItem(k));
       const saved = localStorage.getItem(STORAGE_KEY);
       if (saved) {
-        return { ...DEFAULT_DATA, ...JSON.parse(saved) };
+        const parsed = JSON.parse(saved);
+        // Only return if it contains valid transactions array
+        if (parsed && Array.isArray(parsed.transactions)) {
+          return parsed;
+        }
       }
     } catch (e) {
       console.warn('Failed to load state from localStorage', e);
     }
-    return JSON.parse(JSON.stringify(DEFAULT_DATA));
+    const fresh = JSON.parse(JSON.stringify(DEFAULT_DATA));
+    try { localStorage.setItem(STORAGE_KEY, JSON.stringify(fresh)); } catch(e) {}
+    return fresh;
   }
 
   saveState() {

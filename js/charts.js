@@ -38,18 +38,16 @@ function renderNetWorthChart() {
 
   const { textColor, gridColor } = getThemeTextColors();
 
-  // Generate historical net worth data points
+  // Generate historical net worth data points dynamically
   const totals = store.getTotals();
   const currentNW = totals.netWorth;
   const labels = ['May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct (Current)'];
-  const dataPoints = [
-    currentNW * 0.78,
-    currentNW * 0.83,
-    currentNW * 0.89,
-    currentNW * 0.92,
-    currentNW * 0.96,
-    currentNW
-  ];
+  
+  // Calculate data points safely
+  let base = Math.max(currentNW, 0);
+  const dataPoints = currentNW === 0 
+    ? [0, 0, 0, 0, 0, 0] 
+    : [base * 0.2, base * 0.4, base * 0.6, base * 0.75, base * 0.9, currentNW];
 
   const gradient = ctx.createLinearGradient(0, 0, 0, 250);
   gradient.addColorStop(0, 'rgba(16, 185, 129, 0.35)');
@@ -88,7 +86,7 @@ function renderNetWorthChart() {
           grid: { color: gridColor }, 
           ticks: { 
             color: textColor,
-            callback: (value) => store.getCurrencySymbol() + (value / 1000).toFixed(0) + 'k'
+            callback: (value) => store.getCurrencySymbol() + (value >= 1000 ? (value / 1000).toFixed(1) + 'k' : Math.round(value))
           } 
         }
       }
