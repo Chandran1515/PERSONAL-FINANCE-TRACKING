@@ -1,0 +1,11 @@
+date,description,category,type,amount,method,note
+2026-08-25,"Zomato Cybs, New Delhi",Food & Groceries,expense,1347.68,Credit Card,IDFC SWYP Card XXXX 9131
+2026-08-27,BillDesk BBPS Card Payment,Investments,income,421.47,Bank Transfer,BillDesk Payment Credit (Ref: 90731576kmcE3)
+2026-08-30,Eternal Limited (Zomato),Food & Groceries,expense,833.25,Credit Card,IDFC SWYP Card XXXX 9131
+2026-09-03,"Zomato Limited, New Delhi",Food & Groceries,expense,775.33,Credit Card,IDFC SWYP Card XXXX 9131
+2026-09-03,Pay to BharatPe Merchant (Mandhir),Shopping,expense,590.0,UPI,IDFC UPI CC Card XXXX 8848 (Ref: 624633645816)
+2026-09-06,RedBus Ticket Booking,Transportation,expense,2100.0,UPI,IDFC UPI CC Card XXXX 8848 (Ref: 223145076248)
+2026-09-08,Mr Raya (Paytm QR),Entertainment,expense,104.0,UPI,IDFC UPI CC Card XXXX 8848 (Ref: 625144149119)
+2026-09-12,SBI PMOP Request,Utilities,expense,500.0,UPI,IDFC UPI CC Card XXXX 8848 (Ref: 625552307593)
+2026-09-12,SBI PMOP Reversal Refund,Freelance,income,500.0,UPI,Reversal of Ref 625552307593
+2026-09-15,"Zomato, New Delhi",Food & Groceries,expense,410.49,Credit Card,IDFC SWYP Card XXXX 9131

@@ -25,13 +25,16 @@ const DEFAULT_DATA = {
     { id: 'tx-3', date: '2026-09-25', description: 'DMart & Groceries', amount: 14500.00, type: 'expense', category: 'Food & Groceries', method: 'UPI', note: 'Monthly family grocery run' },
     { id: 'tx-4', date: '2026-09-24', description: 'Freelance Tech Consulting', amount: 45000.00, type: 'income', category: 'Freelance', method: 'Bank Transfer', note: 'Web App Consulting' },
     { id: 'tx-5', date: '2026-09-22', description: 'Nifty 50 Index Fund SIP', amount: 25000.00, type: 'investment', category: 'Stocks & ETFs', method: 'Auto-Debit', note: 'Monthly Index SIP' },
-    { id: 'tx-6', date: '2026-09-20', description: 'Electricity & Utility Bill', amount: 3850.00, type: 'expense', category: 'Utilities', method: 'UPI', note: 'Monthly electricity bill' },
-    { id: 'tx-7', date: '2026-09-18', description: 'Indian Oil Fuel Refill', amount: 4500.00, type: 'expense', category: 'Transportation', method: 'Credit Card', note: 'Car petrol tank full' },
-    { id: 'tx-8', date: '2026-09-15', description: 'Weekend Dinner Outing', amount: 4200.00, type: 'expense', category: 'Entertainment', method: 'Credit Card', note: 'Family weekend dinner' },
-    { id: 'tx-9', date: '2026-09-12', description: 'Netflix & Broadband', amount: 1499.00, type: 'expense', category: 'Subscriptions', method: 'UPI', note: 'Fiber net + Netflix' },
-    { id: 'tx-10', date: '2026-09-10', description: 'Gym Membership', amount: 3500.00, type: 'expense', category: 'Healthcare', method: 'UPI', note: 'Monthly gym fee' },
-    { id: 'tx-11', date: '2026-09-05', description: 'Digital Gold SIP', amount: 10000.00, type: 'investment', category: 'Gold', method: 'UPI', note: 'Digital Gold DCA' },
-    { id: 'tx-12', date: '2026-09-01', description: 'TCS Dividend Payout', amount: 8500.00, type: 'income', category: 'Investments', method: 'Bank Transfer', note: 'Quarterly dividend' }
+    { id: 'tx-idfc-10', date: '2026-09-15', description: 'Zomato, New Delhi', amount: 410.49, type: 'expense', category: 'Food & Groceries', method: 'Credit Card', note: 'IDFC SWYP Card XXXX 9131' },
+    { id: 'tx-idfc-8', date: '2026-09-12', description: 'SBI PMOP Payment', amount: 500.00, type: 'expense', category: 'Utilities', method: 'UPI', note: 'IDFC UPI CC Card XXXX 8848' },
+    { id: 'tx-idfc-9', date: '2026-09-12', description: 'SBI PMOP Reversal Refund', amount: 500.00, type: 'income', category: 'Investments', method: 'UPI', note: 'Reversal refund' },
+    { id: 'tx-idfc-7', date: '2026-09-08', description: 'Mr Raya (Paytm QR)', amount: 104.00, type: 'expense', category: 'Entertainment', method: 'UPI', note: 'IDFC UPI CC Card XXXX 8848' },
+    { id: 'tx-idfc-6', date: '2026-09-06', description: 'RedBus Ticket Booking', amount: 2100.00, type: 'expense', category: 'Transportation', method: 'UPI', note: 'IDFC UPI CC Card XXXX 8848' },
+    { id: 'tx-idfc-4', date: '2026-09-03', description: 'Zomato Limited, New Delhi', amount: 775.33, type: 'expense', category: 'Food & Groceries', method: 'Credit Card', note: 'IDFC SWYP Card XXXX 9131' },
+    { id: 'tx-idfc-5', date: '2026-09-03', description: 'Pay to BharatPe Merchant', amount: 590.00, type: 'expense', category: 'Shopping', method: 'UPI', note: 'IDFC UPI CC Card XXXX 8848' },
+    { id: 'tx-idfc-3', date: '2026-08-30', description: 'Eternal Limited (Zomato)', amount: 833.25, type: 'expense', category: 'Food & Groceries', method: 'Credit Card', note: 'IDFC SWYP Card XXXX 9131' },
+    { id: 'tx-idfc-2', date: '2026-08-27', description: 'BillDesk BBPS Card Payment', amount: 421.47, type: 'income', category: 'Investments', method: 'Bank Transfer', note: 'BillDesk Payment Credit' },
+    { id: 'tx-idfc-1', date: '2026-08-25', description: 'Zomato Cybs, New Delhi', amount: 1347.68, type: 'expense', category: 'Food & Groceries', method: 'Credit Card', note: 'IDFC SWYP Card XXXX 9131' }
   ],
   budgets: [
     { category: 'Housing', cap: 40000, period: 'Monthly' },
