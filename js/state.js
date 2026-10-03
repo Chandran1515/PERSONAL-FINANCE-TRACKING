@@ -2,7 +2,7 @@
    WealthRise - State Management & Storage Engine
    ========================================================================== */
 
-const STORAGE_KEY = 'wealthrise_financial_store_v1';
+const STORAGE_KEY = 'wealthrise_financial_store_v3';
 
 // Supported Currencies Configuration
 const CURRENCIES = {
@@ -20,22 +20,367 @@ const DEFAULT_DATA = {
   currency: 'INR',
   theme: 'dark',
   transactions: [
-    { id: 'tx-1', date: '2026-09-28', description: 'Tech Corp Salary', amount: 150000.00, type: 'income', category: 'Salary', method: 'Bank Transfer', note: 'Monthly HDFC salary credit' },
-    { id: 'tx-2', date: '2026-09-27', description: 'Apartment Rent', amount: 35000.00, type: 'expense', category: 'Housing', method: 'Bank Transfer', note: 'September rent payment' },
-    { id: 'tx-3', date: '2026-09-25', description: 'DMart & Groceries', amount: 14500.00, type: 'expense', category: 'Food & Groceries', method: 'UPI', note: 'Monthly family grocery run' },
-    { id: 'tx-4', date: '2026-09-24', description: 'Freelance Tech Consulting', amount: 45000.00, type: 'income', category: 'Freelance', method: 'Bank Transfer', note: 'Web App Consulting' },
-    { id: 'tx-5', date: '2026-09-22', description: 'Nifty 50 Index Fund SIP', amount: 25000.00, type: 'investment', category: 'Stocks & ETFs', method: 'Auto-Debit', note: 'Monthly Index SIP' },
-    { id: 'tx-idfc-10', date: '2026-09-15', description: 'Zomato, New Delhi', amount: 410.49, type: 'expense', category: 'Food & Groceries', method: 'Credit Card', note: 'IDFC SWYP Card XXXX 9131' },
-    { id: 'tx-idfc-8', date: '2026-09-12', description: 'SBI PMOP Payment', amount: 500.00, type: 'expense', category: 'Utilities', method: 'UPI', note: 'IDFC UPI CC Card XXXX 8848' },
-    { id: 'tx-idfc-9', date: '2026-09-12', description: 'SBI PMOP Reversal Refund', amount: 500.00, type: 'income', category: 'Investments', method: 'UPI', note: 'Reversal refund' },
-    { id: 'tx-idfc-7', date: '2026-09-08', description: 'Mr Raya (Paytm QR)', amount: 104.00, type: 'expense', category: 'Entertainment', method: 'UPI', note: 'IDFC UPI CC Card XXXX 8848' },
-    { id: 'tx-idfc-6', date: '2026-09-06', description: 'RedBus Ticket Booking', amount: 2100.00, type: 'expense', category: 'Transportation', method: 'UPI', note: 'IDFC UPI CC Card XXXX 8848' },
-    { id: 'tx-idfc-4', date: '2026-09-03', description: 'Zomato Limited, New Delhi', amount: 775.33, type: 'expense', category: 'Food & Groceries', method: 'Credit Card', note: 'IDFC SWYP Card XXXX 9131' },
-    { id: 'tx-idfc-5', date: '2026-09-03', description: 'Pay to BharatPe Merchant', amount: 590.00, type: 'expense', category: 'Shopping', method: 'UPI', note: 'IDFC UPI CC Card XXXX 8848' },
-    { id: 'tx-idfc-3', date: '2026-08-30', description: 'Eternal Limited (Zomato)', amount: 833.25, type: 'expense', category: 'Food & Groceries', method: 'Credit Card', note: 'IDFC SWYP Card XXXX 9131' },
-    { id: 'tx-idfc-2', date: '2026-08-27', description: 'BillDesk BBPS Card Payment', amount: 421.47, type: 'income', category: 'Investments', method: 'Bank Transfer', note: 'BillDesk Payment Credit' },
-    { id: 'tx-idfc-1', date: '2026-08-25', description: 'Zomato Cybs, New Delhi', amount: 1347.68, type: 'expense', category: 'Food & Groceries', method: 'Credit Card', note: 'IDFC SWYP Card XXXX 9131' }
-  ],
+    {
+        "id": "tx-indus-1",
+        "date": "2026-09-22",
+        "description": "Policy Bazaar EMI Principal (006/006)",
+        "amount": 8829.71,
+        "type": "expense",
+        "category": "Housing",
+        "method": "Credit Card",
+        "note": "IndusInd Credit Card EMI"
+    },
+    {
+        "id": "tx-indus-2",
+        "date": "2026-09-22",
+        "description": "Policy Bazaar EMI Interest (006/006)",
+        "amount": 117.75,
+        "type": "expense",
+        "category": "Utilities",
+        "method": "Credit Card",
+        "note": "IndusInd EMI Interest"
+    },
+    {
+        "id": "tx-indus-3",
+        "date": "2026-09-22",
+        "description": "GST @ 18%",
+        "amount": 21.2,
+        "type": "expense",
+        "category": "Utilities",
+        "method": "Credit Card",
+        "note": "IndusInd GST Charge"
+    },
+    {
+        "id": "tx-indus-4",
+        "date": "2026-09-03",
+        "description": "BBPS Payment Received",
+        "amount": 8990.0,
+        "type": "income",
+        "category": "Freelance",
+        "method": "Bank Transfer",
+        "note": "IndusInd Card Payment Credit"
+    },
+    {
+        "id": "tx-icici-1",
+        "date": "2026-09-18",
+        "description": "Shree Sindoor Cafe",
+        "amount": 20.0,
+        "type": "expense",
+        "category": "Food & Groceries",
+        "method": "UPI",
+        "note": "ICICI Coral UPI"
+    },
+    {
+        "id": "tx-icici-2",
+        "date": "2026-09-17",
+        "description": "Nayana Enterprises",
+        "amount": 59.0,
+        "type": "expense",
+        "category": "Shopping",
+        "method": "UPI",
+        "note": "ICICI Coral UPI"
+    },
+    {
+        "id": "tx-icici-3",
+        "date": "2026-09-17",
+        "description": "Shree Sindoor Cafe",
+        "amount": 20.0,
+        "type": "expense",
+        "category": "Food & Groceries",
+        "method": "UPI",
+        "note": "ICICI Coral UPI"
+    },
+    {
+        "id": "tx-icici-4",
+        "date": "2026-09-16",
+        "description": "Shree Sindoor Cafe",
+        "amount": 45.0,
+        "type": "expense",
+        "category": "Food & Groceries",
+        "method": "UPI",
+        "note": "ICICI Coral UPI"
+    },
+    {
+        "id": "tx-icici-5",
+        "date": "2026-09-15",
+        "description": "Shree Sindoor Cafe",
+        "amount": 30.0,
+        "type": "expense",
+        "category": "Food & Groceries",
+        "method": "UPI",
+        "note": "ICICI Coral UPI"
+    },
+    {
+        "id": "tx-icici-6",
+        "date": "2026-09-14",
+        "description": "Bishevar Sah",
+        "amount": 90.0,
+        "type": "expense",
+        "category": "Entertainment",
+        "method": "UPI",
+        "note": "ICICI Coral UPI"
+    },
+    {
+        "id": "tx-icici-7",
+        "date": "2026-09-13",
+        "description": "Sri Raghavendra Fruit",
+        "amount": 135.0,
+        "type": "expense",
+        "category": "Food & Groceries",
+        "method": "UPI",
+        "note": "ICICI Coral UPI"
+    },
+    {
+        "id": "tx-icici-8",
+        "date": "2026-09-13",
+        "description": "Veeraswamy S",
+        "amount": 70.0,
+        "type": "expense",
+        "category": "Shopping",
+        "method": "UPI",
+        "note": "ICICI Coral UPI"
+    },
+    {
+        "id": "tx-icici-9",
+        "date": "2026-09-13",
+        "description": "Ashwini G",
+        "amount": 50.0,
+        "type": "expense",
+        "category": "Entertainment",
+        "method": "UPI",
+        "note": "ICICI Coral UPI"
+    },
+    {
+        "id": "tx-icici-10",
+        "date": "2026-09-13",
+        "description": "Mr Muthu Subramani",
+        "amount": 350.0,
+        "type": "expense",
+        "category": "Entertainment",
+        "method": "UPI",
+        "note": "ICICI Coral UPI"
+    },
+    {
+        "id": "tx-icici-11",
+        "date": "2026-09-13",
+        "description": "Govinda Swami Shop",
+        "amount": 70.0,
+        "type": "expense",
+        "category": "Shopping",
+        "method": "UPI",
+        "note": "ICICI Coral UPI"
+    },
+    {
+        "id": "tx-icici-12",
+        "date": "2026-09-09",
+        "description": "Ram Lal",
+        "amount": 25.0,
+        "type": "expense",
+        "category": "Entertainment",
+        "method": "UPI",
+        "note": "ICICI Coral UPI"
+    },
+    {
+        "id": "tx-icici-13",
+        "date": "2026-09-06",
+        "description": "Paytm",
+        "amount": 6.27,
+        "type": "expense",
+        "category": "Utilities",
+        "method": "Credit Card",
+        "note": "ICICI Coral Card"
+    },
+    {
+        "id": "tx-icici-14",
+        "date": "2026-09-06",
+        "description": "Sree Venkateshwara",
+        "amount": 531.35,
+        "type": "expense",
+        "category": "Shopping",
+        "method": "UPI",
+        "note": "ICICI Coral UPI"
+    },
+    {
+        "id": "tx-icici-15",
+        "date": "2026-09-05",
+        "description": "Areef M",
+        "amount": 150.0,
+        "type": "expense",
+        "category": "Entertainment",
+        "method": "UPI",
+        "note": "ICICI Coral UPI"
+    },
+    {
+        "id": "tx-icici-16",
+        "date": "2026-09-05",
+        "description": "AT Store",
+        "amount": 86.0,
+        "type": "expense",
+        "category": "Shopping",
+        "method": "UPI",
+        "note": "ICICI Coral UPI"
+    },
+    {
+        "id": "tx-icici-17",
+        "date": "2026-09-04",
+        "description": "Shree Sindoor Cafe",
+        "amount": 30.0,
+        "type": "expense",
+        "category": "Food & Groceries",
+        "method": "UPI",
+        "note": "ICICI Coral UPI"
+    },
+    {
+        "id": "tx-icici-18",
+        "date": "2026-09-03",
+        "description": "Malleshwar Garments",
+        "amount": 300.0,
+        "type": "expense",
+        "category": "Shopping",
+        "method": "UPI",
+        "note": "ICICI Coral UPI"
+    },
+    {
+        "id": "tx-icici-19",
+        "date": "2026-09-03",
+        "description": "BBPS Payment Received",
+        "amount": 24626.09,
+        "type": "income",
+        "category": "Salary",
+        "method": "Bank Transfer",
+        "note": "ICICI Card Payment Credit"
+    },
+    {
+        "id": "tx-icici-20",
+        "date": "2026-09-02",
+        "description": "Mr Rayamon Raj A",
+        "amount": 62.0,
+        "type": "expense",
+        "category": "Entertainment",
+        "method": "UPI",
+        "note": "ICICI Coral UPI"
+    },
+    {
+        "id": "tx-icici-21",
+        "date": "2026-09-01",
+        "description": "Areef M",
+        "amount": 450.0,
+        "type": "expense",
+        "category": "Entertainment",
+        "method": "UPI",
+        "note": "ICICI Coral UPI"
+    },
+    {
+        "id": "tx-icici-22",
+        "date": "2026-08-28",
+        "description": "Jio IN Mobile Recharge",
+        "amount": 49.0,
+        "type": "expense",
+        "category": "Subscriptions",
+        "method": "UPI",
+        "note": "ICICI Coral UPI"
+    },
+    {
+        "id": "tx-idfc-10",
+        "date": "2026-09-15",
+        "description": "Zomato, New Delhi",
+        "amount": 410.49,
+        "type": "expense",
+        "category": "Food & Groceries",
+        "method": "Credit Card",
+        "note": "IDFC SWYP Card XXXX 9131"
+    },
+    {
+        "id": "tx-idfc-9",
+        "date": "2026-09-12",
+        "description": "SBI PMOP Reversal Refund",
+        "amount": 500.0,
+        "type": "income",
+        "category": "Investments",
+        "method": "UPI",
+        "note": "IDFC Reversal Refund"
+    },
+    {
+        "id": "tx-idfc-8",
+        "date": "2026-09-12",
+        "description": "SBI PMOP Payment",
+        "amount": 500.0,
+        "type": "expense",
+        "category": "Utilities",
+        "method": "UPI",
+        "note": "IDFC UPI CC Card XXXX 8848"
+    },
+    {
+        "id": "tx-idfc-7",
+        "date": "2026-09-08",
+        "description": "Mr Raya (Paytm QR)",
+        "amount": 104.0,
+        "type": "expense",
+        "category": "Entertainment",
+        "method": "UPI",
+        "note": "IDFC UPI CC Card XXXX 8848"
+    },
+    {
+        "id": "tx-idfc-6",
+        "date": "2026-09-06",
+        "description": "RedBus Ticket Booking",
+        "amount": 2100.0,
+        "type": "expense",
+        "category": "Transportation",
+        "method": "UPI",
+        "note": "IDFC UPI CC Card XXXX 8848"
+    },
+    {
+        "id": "tx-idfc-5",
+        "date": "2026-09-03",
+        "description": "Pay to BharatPe Merchant",
+        "amount": 590.0,
+        "type": "expense",
+        "category": "Shopping",
+        "method": "UPI",
+        "note": "IDFC UPI CC Card XXXX 8848"
+    },
+    {
+        "id": "tx-idfc-4",
+        "date": "2026-09-03",
+        "description": "Zomato Limited, New Delhi",
+        "amount": 775.33,
+        "type": "expense",
+        "category": "Food & Groceries",
+        "method": "Credit Card",
+        "note": "IDFC SWYP Card XXXX 9131"
+    },
+    {
+        "id": "tx-idfc-3",
+        "date": "2026-08-30",
+        "description": "Eternal Limited (Zomato)",
+        "amount": 833.25,
+        "type": "expense",
+        "category": "Food & Groceries",
+        "method": "Credit Card",
+        "note": "IDFC SWYP Card XXXX 9131"
+    },
+    {
+        "id": "tx-idfc-2",
+        "date": "2026-08-27",
+        "description": "BillDesk BBPS Card Payment",
+        "amount": 421.47,
+        "type": "income",
+        "category": "Investments",
+        "method": "Bank Transfer",
+        "note": "IDFC Payment Credit"
+    },
+    {
+        "id": "tx-idfc-1",
+        "date": "2026-08-25",
+        "description": "Zomato Cybs, New Delhi",
+        "amount": 1347.68,
+        "type": "expense",
+        "category": "Food & Groceries",
+        "method": "Credit Card",
+        "note": "IDFC SWYP Card XXXX 9131"
+    }
+],
   budgets: [
     { category: 'Housing', cap: 40000, period: 'Monthly' },
     { category: 'Food & Groceries', cap: 20000, period: 'Monthly' },
