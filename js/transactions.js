@@ -63,6 +63,9 @@ function renderTransactionsTable() {
           ${sign} ${store.formatMoney(t.amount)}
         </td>
         <td style="text-align: right;">
+          <button class="btn-icon" onclick="markAsSalaryHandler('${t.id}')" title="Mark as Salary / Income">
+            <i class="fa-solid fa-briefcase" style="color: var(--primary-cyan); font-size: 0.85rem;"></i>
+          </button>
           <button class="btn-icon" onclick="deleteTxHandler('${t.id}')" title="Delete">
             <i class="fa-solid fa-trash-can" style="color: var(--accent-rose); font-size: 0.85rem;"></i>
           </button>
@@ -74,6 +77,16 @@ function renderTransactionsTable() {
   updatePaginationControls(totalItems, totalPages);
   populateCategoryDropdown();
   renderQuickRecentActivity();
+}
+
+function markAsSalaryHandler(id) {
+  const tx = store.data.transactions.find(t => t.id === id);
+  if (!tx) return;
+  tx.type = 'income';
+  tx.category = 'Salary';
+  store.saveState();
+  refreshAppUI();
+  showToast(`Marked "${tx.description.substring(0, 20)}..." as Salary / Income!`);
 }
 
 function renderQuickRecentActivity() {

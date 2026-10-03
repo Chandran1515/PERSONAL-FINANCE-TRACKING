@@ -33,13 +33,37 @@ function renderKPICards() {
 
   const nwEl = document.getElementById('kpiNetWorth');
   const incEl = document.getElementById('kpiIncome');
+  const cashEl = document.getElementById('kpiClientCash');
   const expEl = document.getElementById('kpiExpenses');
   const savEl = document.getElementById('kpiSavingsRate');
 
   if (nwEl) nwEl.textContent = store.formatMoney(totals.netWorth);
   if (incEl) incEl.textContent = store.formatMoney(totals.income);
+  if (cashEl) cashEl.textContent = store.formatMoney(totals.clientCash);
   if (expEl) expEl.textContent = store.formatMoney(totals.expense);
   if (savEl) savEl.textContent = `${totals.savingsRate}%`;
+}
+
+// Modal helper to record Client Cash Income
+function openAddClientCashModal() {
+  const amountStr = prompt("Enter Client Cash Income Received (₹):", "10000");
+  if (!amountStr) return;
+  const amount = parseFloat(amountStr);
+  if (isNaN(amount) || amount <= 0) return;
+  const note = prompt("Enter Client / Project Note:", "Client Cash Payment") || "Client Cash Payment";
+  
+  store.addTransaction({
+    date: new Date().toISOString().split('T')[0],
+    description: `Client Cash Income - ${note}`,
+    amount: amount,
+    type: 'income',
+    category: 'Client Cash Income',
+    method: 'Cash',
+    note: note
+  });
+  
+  refreshAppUI();
+  showToast(`Recorded ₹${amount} Client Cash Income!`);
 }
 
 // Navigation & Tab Switching

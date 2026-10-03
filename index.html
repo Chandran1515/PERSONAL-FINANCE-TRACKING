@@ -58,6 +58,10 @@
           <i class="fa-solid fa-rotate-left"></i> Reset to Statements
         </button>
 
+        <button class="btn-secondary" style="padding: 0.4rem 0.8rem; font-size: 0.82rem; border-color: var(--primary-emerald); color: var(--primary-emerald);" onclick="openAddClientCashModal()" title="Record Cash Received from Clients">
+          <i class="fa-solid fa-hand-holding-dollar"></i> + Client Cash
+        </button>
+
         <button class="btn-primary" onclick="openModal('addTransactionModal')">
           <i class="fa-solid fa-plus"></i> New Transaction
         </button>
@@ -78,7 +82,7 @@
               <div class="kpi-icon-box icon-emerald"><i class="fa-solid fa-wallet"></i></div>
             </div>
             <div id="kpiNetWorth" class="kpi-val gradient-text">$0.00</div>
-            <span class="kpi-badge badge-up"><i class="fa-solid fa-arrow-trend-up"></i> +4.2% vs last month</span>
+            <span class="kpi-badge badge-up"><i class="fa-solid fa-arrow-trend-up"></i> Dynamic Balance</span>
           </div>
 
           <div class="glass-card kpi-card">
@@ -87,7 +91,16 @@
               <div class="kpi-icon-box icon-cyan"><i class="fa-solid fa-arrow-down-left"></i></div>
             </div>
             <div id="kpiIncome" class="kpi-val">$0.00</div>
-            <span class="kpi-badge badge-up"><i class="fa-solid fa-check"></i> On target</span>
+            <span class="kpi-badge badge-up"><i class="fa-solid fa-check"></i> Salary + PayPal + Cash</span>
+          </div>
+
+          <div class="glass-card kpi-card">
+            <div class="kpi-head">
+              <span>Client Cash Income</span>
+              <div class="kpi-icon-box icon-emerald"><i class="fa-solid fa-money-bill-wave"></i></div>
+            </div>
+            <div id="kpiClientCash" class="kpi-val">$0.00</div>
+            <span class="kpi-badge badge-up"><i class="fa-solid fa-hand-holding-dollar"></i> Client Cash</span>
           </div>
 
           <div class="glass-card kpi-card">
@@ -96,7 +109,7 @@
               <div class="kpi-icon-box icon-rose"><i class="fa-solid fa-arrow-up-right"></i></div>
             </div>
             <div id="kpiExpenses" class="kpi-val">$0.00</div>
-            <span class="kpi-badge badge-neutral"><i class="fa-solid fa-minus"></i> Within budget</span>
+            <span class="kpi-badge badge-neutral"><i class="fa-solid fa-minus"></i> Actual Spends</span>
           </div>
 
           <div class="glass-card kpi-card">
@@ -105,7 +118,7 @@
               <div class="kpi-icon-box icon-purple"><i class="fa-solid fa-piggy-bank"></i></div>
             </div>
             <div id="kpiSavingsRate" class="kpi-val">0%</div>
-            <span class="kpi-badge badge-up"><i class="fa-solid fa-shield-heart"></i> Excellent</span>
+            <span class="kpi-badge badge-up"><i class="fa-solid fa-shield-heart"></i> Net Rate</span>
           </div>
         </div>
 
