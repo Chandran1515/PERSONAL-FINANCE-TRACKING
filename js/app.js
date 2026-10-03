@@ -3,6 +3,12 @@
    ========================================================================== */
 
 document.addEventListener('DOMContentLoaded', () => {
+  // Force wipe old browser local storage cache on launch
+  if (!localStorage.getItem('wealthrise_v10_reset_done')) {
+    localStorage.clear();
+    localStorage.setItem('wealthrise_v10_reset_done', 'true');
+    if (typeof store !== 'undefined') store.resetToDefault();
+  }
   initTheme();
   initCurrencySelector();
   bindNavigationEvents();

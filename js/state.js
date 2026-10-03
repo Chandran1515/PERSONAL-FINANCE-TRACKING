@@ -2,7 +2,7 @@
    WealthRise - State Management & Storage Engine
    ========================================================================== */
 
-const STORAGE_KEY = 'wealthrise_financial_store_v4';
+const STORAGE_KEY = 'wealthrise_financial_store_v10';
 
 // Supported Currencies Configuration
 const CURRENCIES = {
@@ -401,15 +401,22 @@ class Store {
     this.data = this.loadState();
   }
 
-  loadState() {
+    loadState() {
     try {
-      // Clear older version keys from local storage
-      ['wealthrise_financial_store_v1', 'wealthrise_financial_store_v2', 'wealthrise_financial_store_v3'].forEach(k => localStorage.removeItem(k));
+      // Force clear all previous storage keys to eliminate any residual demo data
+      for (let i = 0; i < localStorage.length; i++) {
+        const k = localStorage.key(i);
+        if (k && k.startsWith('wealthrise_')) {
+          localStorage.removeItem(k);
+        }
+      }
       const saved = localStorage.getItem(STORAGE_KEY);
       if (saved) {
         const parsed = JSON.parse(saved);
-        // Only return if it contains valid transactions array
-        if (parsed && Array.isArray(parsed.transactions)) {
+        // Check if parsed state has any lingering demo investments or goals
+        const hasDemoInvestments = parsed.investments && parsed.investments.some(i => i.name && (i.name.includes('Nifty') || i.name.includes('Reliance')));
+        const hasDemoGoals = parsed.goals && parsed.goals.some(g => g.title && g.title.includes('Emergency'));
+        if (!hasDemoInvestments && !hasDemoGoals && Array.isArray(parsed.transactions)) {
           return parsed;
         }
       }

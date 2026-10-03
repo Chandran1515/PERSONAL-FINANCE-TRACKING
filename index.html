@@ -54,6 +54,10 @@
           <i id="themeIcon" class="fa-solid fa-moon"></i>
         </button>
 
+        <button id="resetDataBtn" class="btn-secondary" style="padding: 0.4rem 0.8rem; font-size: 0.82rem;" title="Wipe Old Cache & Reset to Statements" onclick="localStorage.clear(); store.resetToDefault(); refreshAppUI(); showToast('Reset to clean statement data!');">
+          <i class="fa-solid fa-rotate-left"></i> Reset to Statements
+        </button>
+
         <button class="btn-primary" onclick="openModal('addTransactionModal')">
           <i class="fa-solid fa-plus"></i> New Transaction
         </button>
